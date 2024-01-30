@@ -23,6 +23,54 @@ I would not get the Microsoft job.
 It took me quite a lot of thinking and drawing heaps as binary trees
 to figure out a way to do this, and it's probably not the best way.
 
+I observed that common max-heap implementations use a variable-length array
+to keep the elements or nodes or values.
+If an element is at index `n` in the array,
+its child elements are at indexes `2n+1` and `2n+2`.
+Its parent node is at index `(n-1)/2`, which is conveniently rounded down
+by ones-complement integer division.
+
+Once you've put elements or values in such a max heap,
+you've got an array of integers.
+Such an array can be examined to see if it's got the [heap data structure](https://en.wikipedia.org/wiki/Heap_(data_structure))
+partial ordering.
+Filling in the array backing storage guarantees the "shape" property of
+a heap data structure is preserved.
+
+The partial ordering property can be satisfied by some unintuitive binary trees:
+
+![example 5-value max heap](example_max_heap.png)
+
+The left-hand subtree has all elements greater than
+the elements of the right-hand subtree.
+I could not figure out a way to count these without algorithmically checking them,
+nor could I figure out some way to "flip" subtrees to get an arbitrary
+heap value arrangement.
+
+I decided to look at all permutations of the list of `N` integers,
+running the "is this a heap?" test on each permutation.
+Convenient implementations of [Heap's algorithm](https://en.wikipedia.org/wiki/Heap's_algorithm)
+for permuting a list of items are recursive.
+I took advantage of the [Go]() programming language's easy casual concurrency.
+I ran Heap's algorithm in one goroutine,
+having code in that goroutine write each permutation to a channel.
+The main goroutine reads permutations from the channel,
+counting unique permutations.
+The problem statement doesn't specify `N` unique integers,
+so it's possible that an input would have duplicates.
+Two or more "permutations" of the `N` integer list would then be duplicates.
+
+This is a [design pattern](https://bruceediger.com/posts/golang-enabled-pattern/)
+that can be useful quite often.
+In this case, it divides the work, putting the permutation into one thread,
+and unique-detection, counting and output in a second thread.
+
+Here are the 8 ways to have legit heaps when the integer values in the
+heap are `0, 1, 2, 3, 4`:
+
+![first 4 heaps](big1.png)
+![second 4 heaps](big2.png)
+
 ### Code
 
 I wrote a quick and dirty [heap implementation](heap) to understand things, 
@@ -58,8 +106,7 @@ It could be a question to help the interviewer decide if a candidate
 has a grasp of algorithms.
 At the very least, the candidate would have to know of and understand heaps
 (and inside that, binary trees).
-
-My implementation of this problem required
+My implementation of this problem (which may not be the best!) required
 knowing how to permute N integers,
 and knowing enough about heap properties and implementations to use a Go slice
 as the underlying data storage.
