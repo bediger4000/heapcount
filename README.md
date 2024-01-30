@@ -65,8 +65,8 @@ that can be useful quite often.
 In this case, it divides the work, putting the permutation into one thread,
 and unique-detection, counting and output in a second thread.
 
-Here are the 8 ways to have legit heaps when the integer values in the
-heap are `0, 1, 2, 3, 4`:
+Here are the 8 ways to arrange values,
+when the integer values in the heap are `0, 1, 2, 3, 4`:
 
 ![first 4 heaps](big1.png)
 ![second 4 heaps](big2.png)
@@ -110,3 +110,10 @@ My implementation of this problem (which may not be the best!) required
 knowing how to permute N integers,
 and knowing enough about heap properties and implementations to use a Go slice
 as the underlying data storage.
+
+The problem as I solved it seems large for a whiteboard interview.
+I suppose the candidate could block it out on a whiteboard,
+with "TBD" or just a sketch of the code in functions for permutations
+and heap-ordering-checking.
+
+It's definitely more than a "[Medium]"
