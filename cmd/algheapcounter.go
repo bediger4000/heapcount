@@ -25,11 +25,13 @@ func main() {
 
 func a(n int) int {
 	if n == 0 {
-		return 0
+		return 1 // seems like there's a typo on Wolfram MathWorld Heap page
 	}
 	if n == 1 {
 		return 1
 	}
+
+	// ripe for memoization
 
 	h := int(math.Log2(float64(n+1))) - 1
 
