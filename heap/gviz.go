@@ -14,20 +14,24 @@ func PrintDot(out *os.File, h Heap) {
 }
 
 func printNode(out *os.File, h Heap, max, idx int) {
+	PrintNodePrefixed(out, h, max, idx, "n")
+}
+
+func PrintNodePrefixed(out *os.File, h Heap, max, idx int, prefix string) {
 	if idx > max {
 		return
 	}
 
 	if idx != 0 {
 		parentIndex := (idx - 1) / 2
-		fmt.Fprintf(out, "n%d -> n%d\n", parentIndex, idx)
+		fmt.Fprintf(out, "%s%d -> %s%d\n", prefix, parentIndex, prefix, idx)
 	}
 
-	fmt.Fprintf(out, "n%d [label=\"%d\"];\n", idx, h[idx])
+	fmt.Fprintf(out, "%s%d [label=\"%d\"];\n", prefix, idx, h[idx])
 
 	leftIndex := 2*idx + 1
-	printNode(out, h, max, leftIndex)
+	PrintNodePrefixed(out, h, max, leftIndex, prefix)
 
 	rightIndex := 2*idx + 2
-	printNode(out, h, max, rightIndex)
+	PrintNodePrefixed(out, h, max, rightIndex, prefix)
 }
