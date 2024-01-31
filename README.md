@@ -41,10 +41,10 @@ The partial ordering property can be satisfied by some unintuitive binary trees:
 
 ![example 5-value max heap](example_max_heap.png)
 
-The left-hand subtree has all elements greater than
-the elements of the right-hand subtree.
+The left-hand sub-tree has all elements greater than
+the elements of the right-hand sub-tree.
 I could not figure out a way to count these without algorithmically checking them,
-nor could I figure out some way to "flip" subtrees to get an arbitrary
+nor could I figure out some way to "flip" sub-trees to get an arbitrary
 heap value arrangement.
 
 I decided to look at all permutations of the list of `N` integers,
@@ -61,7 +61,7 @@ so it's possible that an input would have duplicates.
 Two or more "permutations" of the `N` integer list would then be duplicates.
 
 This is a [design pattern](https://bruceediger.com/posts/golang-enabled-pattern/)
-that can be useful quite often.
+that is often useful.
 In this case, it divides the work, putting the permutation into one thread,
 and unique-detection, counting and output in a second thread.
 
@@ -71,6 +71,21 @@ when the integer values in the heap are `0, 1, 2, 3, 4`:
 ![first 4 heaps](big1.png)
 ![second 4 heaps](big2.png)
 
+I've grouped them to show that there's 4 groups of 2,
+related by transposing values of some of the nodes.
+
+### Number of binary max heaps as a sequence of integers
+
+The [Online Encyclopedia of Integer Sequences]() contains sequence
+[A056971, Number of (binary) heaps on n elements](https://oeis.org/A056971).
+
+I implemented [Wolfram MathWorld's](https://mathworld.wolfram.com/Heap.html)
+recursive function to find the count of heaps of `N` unique integers.
+
+[Code here](cmd/algheapcounter.go).
+
+I have no idea how one would go about deriving the recursive function.
+
 ### Code
 
 I wrote a quick and dirty [heap implementation](heap) to understand things, 
@@ -78,13 +93,13 @@ I cribbed most of the code from a "heap sort" [linked list](https://github.com/b
 sorting algorithm, which was in turn transliterated from a C heap sort
 algorithm I wrote after receiving enlightenment about heaps.
 The point of this is to try inserting integers into a genuine heap
-to see if particular configurations can be acheived.
+to see if particular configurations can be achieved.
 
 Programs that use parts of `package heap`, or that I used to understand this problem:
 
 * [example heap sort](cmd/heapdemo.go), to verify quick-and-dirty heap implementation
   - `go build cmd/heapdemo.go; ./heapdemo 5 2 1 0 3 4`
-* [heap vizualization](cmd/heapviz.go) using [GraphViz](https://graphviz.org/)
+* [heap visualization](cmd/heapviz.go) using [GraphViz](https://graphviz.org/)
   - `go build cmd/heapviz.go; ./heapviz 5 2 1 0 3 4 > h.dot; dot -Tpng -o h.png h.dot;`
   - Then view PNG file `h.png`
 * [test heap construction](cmd/buildcheck.go) and show backing storage on command line
@@ -98,6 +113,8 @@ Programs that use parts of `package heap`, or that I used to understand this pro
   - `go build cmd/permutations.go; ./permutations 1 2 3 4 5 | sort | uniq | wc -l`
     * Should get N! (N factorial), if all integers on command line are unique
   - If you input duplicate integers, you get a few non-unique permutations
+* [Count unique heaps](heapcount.go) of a list of arbitrary integers.
+  This actually implements the solution to the problem statement.
 
 ## Interview Analysis
 
@@ -110,10 +127,25 @@ My implementation of this problem (which may not be the best!) required
 knowing how to permute N integers,
 and knowing enough about heap properties and implementations to use a Go slice
 as the underlying data storage.
+Solving the problem doesn't require more than a rudimentary knowledge of
+the definition of the heap data structure.
+
+The recursive function that gives a count of heaps constructible
+from a list of unique integers is far too obscure to expect even a specialist
+to have memorized,
+so this problem can't be a test of whether someone just happens to know that
+function.
+The function's very existence almost negates this as a programming problem,
+unless the point is to see the candidate fail by not asking if the list
+of integers can contain dupes.
 
 The problem as I solved it seems large for a whiteboard interview.
 I suppose the candidate could block it out on a whiteboard,
 with "TBD" or just a sketch of the code in functions for permutations
 and heap-ordering-checking.
 
-It's definitely more than a "[Medium]"
+It's definitely more than a "[Medium]",
+either in terms of knowing some obscure combinatorial recursive function,
+and having the ability to write a program to calculate it,
+or in knowing enough idioms and generally useful easy data structures
+and design patterns to write something like I did.
