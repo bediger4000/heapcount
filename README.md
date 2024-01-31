@@ -115,6 +115,7 @@ Programs that use parts of `package heap`, or that I used to understand this pro
   - If you input duplicate integers, you get a few non-unique permutations
 * [Count unique heaps](heapcount.go) of a list of arbitrary integers.
   This actually implements the solution to the problem statement.
+  - `go build $PWD; ./heapcounter 4 3 2 1 0`
 
 ## Interview Analysis
 
@@ -149,3 +150,8 @@ either in terms of knowing some obscure combinatorial recursive function,
 and having the ability to write a program to calculate it,
 or in knowing enough idioms and generally useful easy data structures
 and design patterns to write something like I did.
+
+My thought is this is not a good interview question.
+The candidate will probably be frustrated,
+and the interviewer won't see much coding,
+or much in the way of algorithmic thinking.
