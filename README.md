@@ -130,6 +130,8 @@ and knowing enough about heap properties and implementations to use a Go slice
 as the underlying data storage.
 Solving the problem doesn't require more than a rudimentary knowledge of
 the definition of the heap data structure.
+That makes the problem statement deceptive.
+The example isn't terribly informative either.
 
 The recursive function that gives a count of heaps constructible
 from a list of unique integers is far too obscure to expect even a specialist
