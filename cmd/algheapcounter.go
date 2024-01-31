@@ -1,5 +1,9 @@
 package main
 
+// algorithmic determination of number of heaps of N
+// distinct integers.
+// https://mathworld.wolfram.com/Heap.html
+
 import (
 	"fmt"
 	"log"
