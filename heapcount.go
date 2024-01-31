@@ -19,12 +19,19 @@ func main() {
 
 	go outerGenerate(c, ary)
 
+	// track unique heaps
+	uniqueHeaps := make(map[string]bool)
+
 	count := 0
 	for h := range c {
 		hp := heap.Heap(h)
 		if hp.IsHeap() {
-			count++
-			fmt.Printf("%s\t%v\n", hp.ToString(), h)
+			stringRep := fmt.Sprintf("%v", h)
+			if _, ok := uniqueHeaps[stringRep]; !ok {
+				count++
+				fmt.Printf("%s\t%v\n", hp.ToString(), h)
+				uniqueHeaps[stringRep] = true
+			}
 		}
 	}
 	fmt.Printf("%d heaps possible\n", count)
