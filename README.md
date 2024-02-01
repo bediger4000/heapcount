@@ -90,7 +90,10 @@ I have no idea how one would go about deriving the recursive function.
 
 I wrote a quick and dirty [heap implementation](heap) to understand things, 
 I cribbed most of the code from a "heap sort" [linked list](https://github.com/bediger4000/linked_lists)
-sorting algorithm, which was in turn transliterated from a C heap sort
+sorting algorithm, 
+which I copied from another [daily coding problem](https://github.com/bediger4000/jobscheduler)
+solution that I just might have overthought,
+which was in turn transliterated from a C heap sort
 algorithm I wrote after receiving enlightenment about heaps.
 The point of this is to try inserting integers into a genuine heap
 to see if particular configurations can be achieved.
